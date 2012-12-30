@@ -11,7 +11,7 @@ class murmur::rhel::service {
         ensure    => running,
         enable    => true,
         subscribe => File['murmur_conf'],
-        require   => Package['murmur'],
+        require   => Package['Murmur'],
         hasstatus => true,
       }#end service definition
     }#end enabled class

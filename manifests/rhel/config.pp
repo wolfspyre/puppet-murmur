@@ -41,11 +41,11 @@ class murmur::rhel::config {
       file {'murmur_conf':
         ensure  => 'present',
         path    =>  $configfilepath,
-        owner   => 'rmurmur',
+        owner   => 'murmur',
         group   => 'murmur',
         mode    => '0440',
         content => template('murmur/usr/local/murmur/murmur.ini.erb'),
-        require => Package['murmur'],
+        require => Package['Murmur'],
       }#end murmur_conf file
       file {'murmur_logfile':
         ensure  => 'present',
@@ -53,14 +53,15 @@ class murmur::rhel::config {
         owner   => 'murmur',
         group   => 'murmur',
         mode    => '0664',
-        require => Package['murmur'],
+        require => Package['Murmur'],
       }#end murmur logfile file
 
       file {'/usr/local/murmur':
-        ensure => 'directory',
-        owner  => 'murmur',
-        group  => 'murmur',
-        mode   => '0755',
+        ensure  => 'directory',
+        owner   => 'murmur',
+        group   => 'murmur',
+        require => Package['Murmur'],
+        mode    => '0755',
       }#End murmur dir
 
       file {'/etc/init.d/murmur':
@@ -69,7 +70,7 @@ class murmur::rhel::config {
         group   => 'root',
         mode    => '0755',
         source  => "puppet:///modules/${module_name}/etc/murmur",
-        require => Package['murmur'],
+        require => Package['Murmur'],
       }#End init file
       #logrotate
       if $logrotate {

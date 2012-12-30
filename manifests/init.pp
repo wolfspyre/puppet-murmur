@@ -91,7 +91,7 @@
 #
 # example hiera variable
 #murmur_ensure:             'enabled'
-#murmur_allowhtml:          true
+#murmur_allowhtml:          'true'
 #murmur_autoban_attempts:   '10'
 #murmur_autoban_time:       '120'
 #murmur_autoban_timeframe:  '300'
@@ -121,6 +121,11 @@
 #    murmur_serverpassword => 'c@llMEmayb?'
 #  }
 #
+# === To Do:
+#
+#  Make Packagename a variable
+#  turn this into a defined type so multiple servers can be run on a box
+#
 # === Authors
 #
 # Wolf Noble <wolfspyre@wolfspaw.com>
@@ -131,7 +136,7 @@
 #
 class murmur(
   $murmur_ensure             = hiera('murmur_ensure',             'enabled'),
-  $murmur_allowhtml          = hiera('murmur_allowhtml',          true),
+  $murmur_allowhtml          = hiera('murmur_allowhtml',          'true' ),
   $murmur_autoban_attempts   = hiera('murmur_autoban_attempts',   '10'),
   $murmur_autoban_time       = hiera('murmur_autoban_time',       '120'),
   $murmur_autoban_timeframe  = hiera('murmur_autoban_timeframe',  '120'),
@@ -143,7 +148,7 @@ class murmur(
   $murmur_installdir         = hiera('murmur_installdir',         '/usr/local/murmur/'),
   $murmur_logdays            = hiera('murmur_logdays',            '31'),
   $murmur_logfile            = hiera('murmur_logfile',            '/var/log/murmur.log'),
-  $murmur_logrotate          = hiera('murmur_logrotate',         false),
+  $murmur_logrotate          = hiera('murmur_logrotate',          'false' ),
   $murmur_pidfile            = hiera('murmur_pidfile',            '/var/log/murmur.pid'),
   $murmur_port               = hiera('murmur_port',               '64738'),
   $murmur_rpc                = hiera('murmur_rpc',                'session'),
@@ -167,7 +172,18 @@ class murmur(
   -> anchor {'murmur::end':}
   #clean up our parameters
   $ensure             = $murmur_ensure
-  $allowhtml          = $murmur_allowhtml
+  #$allowhtml          = $murmur_allowhtml
+  case $murmur_allowhtml {
+    /[tT][rR][uU][eE]/: {
+      $allowhtml = true
+    }
+    /[fF][aA][lL][sS][eE]/: {
+      $allowhtml = false
+    }
+    default: {
+      fail "unsupported value $murmur_allowhtml for murmur_allowhtml. expecting a string with the value  true or false"
+    }
+  }
   $autoban_attempts   = $murmur_autoban_attempts
   $autoban_timeframe  = $murmur_autoban_timeframe
   $autoban_time       = $murmur_autoban_time
@@ -179,7 +195,18 @@ class murmur(
   $installdir         = $murmur_installdir
   $logdays            = $murmur_logdays
   $logfile            = $murmur_logfile
-  $logrotate          = $murmur_logrotate
+  #$logrotate          = $murmur_logrotate
+  case $murmur_logrotate {
+    /[tT][rR][uU][eE]/: {
+      $logrotate = true
+    }
+    /[fF][aA][lL][sS][eE]/: {
+      $logrotate = false
+    }
+    default: {
+      fail "unsupported value $murmur_logrotate for murmur_logrotate. expecting a string with the value  true or false"
+    }
+  }
   $pidfile            = $murmur_pidfile
   $port               = $murmur_port
   $rpc                = $murmur_rpc

@@ -13,7 +13,7 @@ class murmur::rhel::package {
     }#end present case
     absent: {
       #everything should be removed
-      package { 'murmur':
+      package { 'Murmur':
         ensure => 'absent',
       } -> Anchor['murmur::package::end']
     }#end absent case

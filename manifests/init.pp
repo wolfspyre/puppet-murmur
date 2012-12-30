@@ -25,6 +25,9 @@
 #   Maximum bandwidth (in bits per second) clients are allowed
 #   to send speech at.
 #
+# [*murmur_configfile*]
+#   The name of the config file
+#
 # [*murmur_database*]
 #   Path to database. If blank, will search for
 #   murmur.sqlite in default locations or create it if not found.
@@ -34,6 +37,9 @@
 # [*murmur_imagemessagelength*]
 #   Maximum length of text messages in characters, with image data. 0 for no limit.
 #
+# [*murmur_installdir*]
+#   The directory the software is installed in
+#
 # [*murmur_logdays*]
 #   Murmur retains the per-server log entries in an internal database which
 #   allows it to be accessed over D-Bus/ICE. How many days should such entries
@@ -42,6 +48,9 @@
 # [*murmur_logfile*]
 #   Murmur default to logging to murmur.log. If you leave this blank, murmur
 #   will log to the console (linux) or through message boxes (win32).
+#
+# [*murmur_logrotate*]
+#    Whether or not to include the logrotate defined type and rotate the log
 #
 # [*murmur_pidfile*]
 #    Murmur will write it's pid to this file
@@ -87,11 +96,14 @@
 #murmur_autoban_time:       '120'
 #murmur_autoban_timeframe:  '300'
 #murmur_bandwidth:          '72000'
-#murmur_database:           '/usr/local/murmur/murmur.sqlite'
+#murmur_configfile:         'murmur.ini'
+#murmur_database:           'murmur.sqlite'
 #murmur_host:               ''
 #murmur_imagemessagelength: '131072'
+#murmur_installdir          '/usr/local/murmur/'
 #murmur_logdays:            '31'
 #murmur_logfile:            '/var/log/murmur.log'
+#murmur_logrotate:          false
 #murmur_pidfile:            ''
 #murmur_port:               '64738'
 #murmur_rpc:                'session'
@@ -103,12 +115,10 @@
 #murmur_uname:              'murmur'
 #murmur_users:              '100'
 #murmur_welcometext:        '"Welcome to mumble"'
-
-
 # === Examples
 #
 #  class { murmur:
-#    murmur_adminpassword => 'c@llMEmayb?'
+#    murmur_serverpassword => 'c@llMEmayb?'
 #  }
 #
 # === Authors
@@ -126,11 +136,14 @@ class murmur(
   $murmur_autoban_time       = hiera('murmur_autoban_time',       '120'),
   $murmur_autoban_timeframe  = hiera('murmur_autoban_timeframe',  '120'),
   $murmur_bandwidth          = hiera('murmur_bandwidth',          '72000'),
-  $murmur_database           = hiera('murmur_database',           '/usr/local/murmur/murmur.sqlite'),
+  $murmur_configfile         = hiera('murmur_configfile',         'murmur.ini'),
+  $murmur_database           = hiera('murmur_database',           'murmur.sqlite'),
   $murmur_host               = hiera('murmur_host',               ''),
   $murmur_imagemessagelength = hiera('murmur_imagemessagelength', '131072'),
+  $murmur_installdir         = hiera('murmur_installdir',         '/usr/local/murmur/'),
   $murmur_logdays            = hiera('murmur_logdays',            '31'),
   $murmur_logfile            = hiera('murmur_logfile',            '/var/log/murmur.log'),
+  $murmur_logrotate          = hiera('murmur_logrotate',         false),
   $murmur_pidfile            = hiera('murmur_pidfile',            '/var/log/murmur.pid'),
   $murmur_port               = hiera('murmur_port',               '64738'),
   $murmur_rpc                = hiera('murmur_rpc',                'session'),
@@ -140,7 +153,7 @@ class murmur(
   $murmur_textmessagelength  = hiera('murmur_textmessagelength',  '5000'),
   $murmur_uname              = hiera('murmur_uname',              'murmur'),
   $murmur_users              = hiera('murmur_users',              '100'),
-  $murmur_welcometext        = hiera('murmur_welcometext',        '"<br />Welcome to this server running <b>Murmur</b>.<br />Enjoy your stay!<br />"'),
+  $murmur_welcometext        = hiera('murmur_welcometext',        "\"<br />Welcome to ${::fqdn} running <b>Murmur</b>.<br />Enjoy your stay!<br />\""),
 
 ) {
   #take advantage of the Anchor pattern
@@ -159,11 +172,14 @@ class murmur(
   $autoban_timeframe  = $murmur_autoban_timeframe
   $autoban_time       = $murmur_autoban_time
   $bandwidth          = $murmur_bandwidth
+  $configfile         = $murmur_configfile
   $database           = $murmur_database
   $host               = $murmur_host
   $imagemessagelength = $murmur_imagemessagelength
+  $installdir         = $murmur_installdir
   $logdays            = $murmur_logdays
   $logfile            = $murmur_logfile
+  $logrotate          = $murmur_logrotate
   $pidfile            = $murmur_pidfile
   $port               = $murmur_port
   $rpc                = $murmur_rpc

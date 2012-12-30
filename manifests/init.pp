@@ -100,7 +100,7 @@
 #murmur_database:           'murmur.sqlite'
 #murmur_host:               ''
 #murmur_imagemessagelength: '131072'
-#murmur_installdir          '/usr/local/murmur/'
+#murmur_installdir:         '/usr/local/murmur/'
 #murmur_logdays:            '31'
 #murmur_logfile:            '/var/log/murmur.log'
 #murmur_logrotate:          'false'

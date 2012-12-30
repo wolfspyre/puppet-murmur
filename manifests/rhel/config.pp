@@ -75,8 +75,9 @@ class murmur::rhel::config {
       #logrotate
       if $logrotate {
         include logrotate
-        logrotate::file{ $logfile:
-          options => ['weekly','rotate 1','compress']
+        logrotate::file{ 'murmur_log':
+          log     => $logfile,
+          options => ['weekly','rotate 1','compress'],
         }
       }
 

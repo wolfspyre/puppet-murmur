@@ -103,11 +103,11 @@
 #murmur_installdir          '/usr/local/murmur/'
 #murmur_logdays:            '31'
 #murmur_logfile:            '/var/log/murmur.log'
-#murmur_logrotate:          false
+#murmur_logrotate:          'false'
 #murmur_pidfile:            ''
 #murmur_port:               '64738'
 #murmur_rpc:                'session'
-#murmur_servername:         %{hostname}
+#murmur_servername:         ''
 #murmur_serverpassword:     ''
 #murmur_sslcert:            ''
 #murmur_sslkey:             ''

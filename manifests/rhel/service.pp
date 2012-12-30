@@ -3,6 +3,7 @@
 Anchor['murmur::config::end'] -> Class['murmur::rhel::service']
 class murmur::rhel::service {
   Service{} -> Anchor['murmur::service::end']
+  $packagename        = $murmur::packagename
   # end of variables
   case $murmur::ensure {
     enabled, active: {
@@ -11,7 +12,7 @@ class murmur::rhel::service {
         ensure    => running,
         enable    => true,
         subscribe => File['murmur_conf'],
-        require   => Package['Murmur'],
+        require   => Package[$packagename],
         hasstatus => true,
       }#end service definition
     }#end enabled class

@@ -52,6 +52,9 @@
 # [*murmur_logrotate*]
 #    Whether or not to include the logrotate defined type and rotate the log
 #
+# [*murmur_packagename*]
+#    The name of the package to install
+#
 # [*murmur_pidfile*]
 #    Murmur will write it's pid to this file
 #
@@ -104,6 +107,7 @@
 #murmur_logdays:            '31'
 #murmur_logfile:            '/var/log/murmur.log'
 #murmur_logrotate:          'false'
+#murmur_packagename:        'Murmur'
 #murmur_pidfile:            ''
 #murmur_port:               '64738'
 #murmur_rpc:                'session'
@@ -123,7 +127,6 @@
 #
 # === To Do:
 #
-#  Make Packagename a variable
 #  turn this into a defined type so multiple servers can be run on a box
 #
 # === Authors
@@ -149,6 +152,7 @@ class murmur(
   $murmur_logdays            = hiera('murmur_logdays',            '31'),
   $murmur_logfile            = hiera('murmur_logfile',            '/var/log/murmur.log'),
   $murmur_logrotate          = hiera('murmur_logrotate',          'false' ),
+  $murmur_packagename        = hiera('murmur_packagename',        'Murmur'),
   $murmur_pidfile            = hiera('murmur_pidfile',            '/var/log/murmur.pid'),
   $murmur_port               = hiera('murmur_port',               '64738'),
   $murmur_rpc                = hiera('murmur_rpc',                'session'),
@@ -207,6 +211,7 @@ class murmur(
       fail "unsupported value $murmur_logrotate for murmur_logrotate. expecting a string with the value  true or false"
     }
   }
+  $packagename        = $murmur_packagename
   $pidfile            = $murmur_pidfile
   $port               = $murmur_port
   $rpc                = $murmur_rpc

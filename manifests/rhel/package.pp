@@ -3,17 +3,18 @@
 #
 class murmur::rhel::package {
   Package{} -> Anchor['murmur::package::end']
+  $packagename        = $murmur::packagename
   # end of variables
   case $murmur::ensure {
     present, enabled, active, disabled, stopped: {
       #everything should be installed
-      package { 'Murmur':
+      package { $packagename:
         ensure => 'present',
       } -> Anchor['murmur::package::end']
     }#end present case
     absent: {
       #everything should be removed
-      package { 'Murmur':
+      package { $packagename:
         ensure => 'absent',
       } -> Anchor['murmur::package::end']
     }#end absent case

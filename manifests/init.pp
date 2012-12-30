@@ -91,7 +91,7 @@
 #
 # example hiera variable
 #murmur_ensure:             'enabled'
-#murmur_allowhtml:          true
+#murmur_allowhtml:          'true'
 #murmur_autoban_attempts:   '10'
 #murmur_autoban_time:       '120'
 #murmur_autoban_timeframe:  '300'
@@ -103,11 +103,11 @@
 #murmur_installdir          '/usr/local/murmur/'
 #murmur_logdays:            '31'
 #murmur_logfile:            '/var/log/murmur.log'
-#murmur_logrotate:          false
+#murmur_logrotate:          'false'
 #murmur_pidfile:            ''
 #murmur_port:               '64738'
 #murmur_rpc:                'session'
-#murmur_servername:         %{hostname}
+#murmur_servername:         ''
 #murmur_serverpassword:     ''
 #murmur_sslcert:            ''
 #murmur_sslkey:             ''
@@ -131,7 +131,7 @@
 #
 class murmur(
   $murmur_ensure             = hiera('murmur_ensure',             'enabled'),
-  $murmur_allowhtml          = hiera('murmur_allowhtml',          true),
+  $murmur_allowhtml          = hiera('murmur_allowhtml',          'true' ),
   $murmur_autoban_attempts   = hiera('murmur_autoban_attempts',   '10'),
   $murmur_autoban_time       = hiera('murmur_autoban_time',       '120'),
   $murmur_autoban_timeframe  = hiera('murmur_autoban_timeframe',  '120'),
@@ -143,7 +143,7 @@ class murmur(
   $murmur_installdir         = hiera('murmur_installdir',         '/usr/local/murmur/'),
   $murmur_logdays            = hiera('murmur_logdays',            '31'),
   $murmur_logfile            = hiera('murmur_logfile',            '/var/log/murmur.log'),
-  $murmur_logrotate          = hiera('murmur_logrotate',         false),
+  $murmur_logrotate          = hiera('murmur_logrotate',          'false' ),
   $murmur_pidfile            = hiera('murmur_pidfile',            '/var/log/murmur.pid'),
   $murmur_port               = hiera('murmur_port',               '64738'),
   $murmur_rpc                = hiera('murmur_rpc',                'session'),

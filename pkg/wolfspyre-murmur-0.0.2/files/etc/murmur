@@ -1,0 +1,57 @@
+### BEGIN INIT INFO
+# Provides: Murmur Server Installation
+# Required-Start: $local_fs $network
+# Required-Stop: $local_fs $remote_fs
+# Default-Start: 2 3 4 5
+# Default-Stop: 0 1 6
+# Short-Description: Voice Chat Service
+# Comments to support chkconfig on RedHat Linux
+# chkconfig: 2345 64 36
+# Description: Murmur is an open source Voice Chat Server for Gamers
+### END INIT INFO
+#! /bin/sh
+# /etc/init.d/murmur
+MURMURDIR=/usr/local/murmur/
+MURMURBIN=murmur.x86
+MURMURPATH=${MURMURDIR}${MURMURBIN}
+MURMURINI=murmur.ini
+MURMURINIPATH=${MURMURDIR}${MURMURINI}
+case "$1" in
+ start)
+    if [ -x $MURMURPATH ] ; then
+      echo "Starting script murmur"
+      $MURMURPATH -ini $MURMURINIPATH
+    else
+      echo "$MURMURPATH not installed"
+    fi
+    ;;
+ stop)
+    echo "Stopping script murmur"
+    pkill $MURMURBIN 2>/dev/null
+    ;;
+ restart)
+    echo "Restarting script murmur"
+    pkill $MURMURBIN 2>/dev/null
+    sleep 1
+    if [ -x $MURMURPATH ] ; then
+        echo "Loading murmur..."
+        $MURMURPATH -ini $MURMURINIPATH
+    else
+        echo "$MURMURPATH not installed"
+    fi
+    ;;
+ status)
+   MURMURPID=`pidof $MURMURPATH`
+   if (( $? ))
+   then
+       echo murmur is NOT running
+   else
+       echo murmur is running, pid=$MURMURPID
+   fi
+   ;;
+ *)
+    echo "Usage: $0 {start|stop|restart|status}"
+    exit 1
+    ;;
+esac
+exit 0

@@ -1,0 +1,32 @@
+{
+  "summary": "Voice chat server software",
+  "types": [
+
+  ],
+  "author": "wolfspyre",
+  "project_page": "mumble.sourceforge.net",
+  "checksums": {
+    "files/etc/murmur": "a4bc5db7bad5dfd9a4b07a7bde36e8e3",
+    "README": "4b45441bab179cc1c6ae050666fc4913",
+    "manifests/init.pp": "05c8deffb3b79f2c3b5c2800b66de292",
+    "templates/usr/local/murmur/murmur.ini.erb": "84aeef9a5e0edd20cce5bb0fb04c5f85",
+    "Modulefile": "26f67b4c2ce53390d16aa255593a1716",
+    "manifests/rhel/package.pp": "f2ef9ec478b28f50daa4fde25387df3c",
+    "manifests/rhel/config.pp": "69e4bdebe184069fa3f79a7b1abd306f",
+    "tests/init.pp": "2ee75aa74f6e5c73bd52dd928b7d7dd5",
+    "spec/spec_helper.rb": "a55d1e6483344f8ec6963fcb2c220372",
+    "manifests/rhel/service.pp": "4f3b1fb5e7b1eda1a4982a604994f68d",
+    "README.md": "f19904585d8df3c9529dc01d05ceb75c",
+    "files/murmur.spec": "f406d94d0f7073ff989d6370a70087b4",
+    "templates/etc/init.d/ventrilo_init.erb": "0bea8362d5fe40ff50d3680ed8bb2cd3",
+    "files/Murmur-1.2.3-1.x86_64.rpm.gz": "56f96c66578c638d917d8d7869212f7f"
+  },
+  "source": "UNKNOWN",
+  "dependencies": [
+
+  ],
+  "license": "Custom",
+  "name": "wolfspyre-murmur",
+  "version": "0.0.2",
+  "description": "see mumble.sourceforge.net for details of the software"
+}

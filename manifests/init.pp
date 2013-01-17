@@ -1,133 +1,95 @@
-# == Class: murmur
+# == Class: ganglia
 #
 # This module enables the configuration and management of a Ventrillo
-# Server. see www.ventrillo.com for details on murmur
+# Server. see www.ventrillo.com for details on ganglia
 # an RPM spec file, an RPM, init script, and config template are provided.
 #
 # === Parameters
 #
 #
-# [*murmur_ensure*]
-#   whether or not to install and enable the service#
+# [*ganglia::add_repo*]
 #
-# [*murmur_allowhtml*]
-#   Allow clients to use HTML in messages, user comments and channel descriptions?
 #
-# [*murmur_autoban_attempts*]
-# [*murmur_autoban_timeframe*]
-# [*murmur_autoban_time*]
-#   How many login attempts do we tolerate from one IP inside a given timeframe
-#   before we ban the connection? Note that this is global (shared between all
-#   virtual servers), and that it counts both successfull and unsuccessfull
-#   connection attempts. Set either Attempts or Timeframe to 0 to disable.
+# [*ganglia::gmond_cluster_name*]
+#   The name of the cluster this node is a member of
 #
-# [*murmur_bandwidth*]
-#   Maximum bandwidth (in bits per second) clients are allowed
-#   to send speech at.
 #
-# [*murmur_configfile*]
-#   The name of the config file
+# [*ganglia::gmond_latlong*]
 #
-# [*murmur_database*]
-#   Path to database. If blank, will search for
-#   murmur.sqlite in default locations or create it if not found.
 #
-# [*murmur_host*]
+# [*ganglia::gmond_location*]
 #
-# [*murmur_imagemessagelength*]
-#   Maximum length of text messages in characters, with image data. 0 for no limit.
 #
-# [*murmur_installdir*]
-#   The directory the software is installed in
 #
-# [*murmur_logdays*]
-#   Murmur retains the per-server log entries in an internal database which
-#   allows it to be accessed over D-Bus/ICE. How many days should such entries
-#   be kept? Set to 0 to keep forever, or -1 to disable logging to the DB
+# [*ganglia::gmond_owner*]
 #
-# [*murmur_logfile*]
-#   Murmur default to logging to murmur.log. If you leave this blank, murmur
-#   will log to the console (linux) or through message boxes (win32).
 #
-# [*murmur_logrotate*]
-#    Whether or not to include the logrotate defined type and rotate the log
 #
-# [*murmur_packagename*]
-#    The name of the package to install
+# [*ganglia::gmond_tcp_accept_channels*]
+#    A hash of TCP ports to listen on
 #
-# [*murmur_pidfile*]
-#    Murmur will write it's pid to this file
+# [*ganglia::gmond_version*]
+#   The version of Ganglia to install. Currently supported versions are 3.4 and 3.5
 #
-# [*murmur_port*]
-#    Port to bind TCP and UDP sockets to
+# [*ganglia::repo_hash*]
+#    A hash containing the necessary bits to feed to create_resources yumrepo
 #
-# [*murmur_rpc*]
-#   Murmur defaults to using session for RPC. Supported options:
-#   session
-#   dbus
+# [*ganglia::web*]
+#   Whether or not this node is the web node
 #
-# [*murmur_serverpassword*]
-#   Password to join server
+#  [*ganglia::gmond_udp_recv_channels*]
+#    A hash of configured recieve channels
 #
-# [*murmur_servername*]
-#   The name the server displays
+#  [*ganglia::gmond_udp_send_channels*]
+#    A hash of configured send channels
 #
-# [*murmur_sslcert*]
-# [*murmur_sslkey*]
-#   If you have a proper SSL certificate, you can provide the filenames here.
-#   Otherwise, Murmur will create it's own certificate automatically.
-#
-# [*murmur_textmessagelength*]
-#   Maximum length of text messages in characters. 0 for no limit.
-#
-# [*murmur_uname*]
-#   If murmur is started as root, which user should it switch to? This option
-#   is ignored if murmur isn't started with root privileges.
-#
-# [*murmur_users*]
-#   Maximum number of concurrent clients allowed.
-#
-# [*murmur_welcometext*]
-#   Welcome message sent to clients when they connect
-#
+#  [*ganglia::user*]
+#    The user which ganglia should run as
 # === Variables
 #
 # example hiera variable
-#murmur_ensure:             'enabled'
-#murmur_allowhtml:          'true'
-#murmur_autoban_attempts:   '10'
-#murmur_autoban_time:       '120'
-#murmur_autoban_timeframe:  '300'
-#murmur_bandwidth:          '72000'
-#murmur_configfile:         'murmur.ini'
-#murmur_database:           'murmur.sqlite'
-#murmur_host:               ''
-#murmur_imagemessagelength: '131072'
-#murmur_installdir:         '/usr/local/murmur/'
-#murmur_logdays:            '31'
-#murmur_logfile:            '/var/log/murmur.log'
-#murmur_logrotate:          'false'
-#murmur_packagename:        'Murmur'
-#murmur_pidfile:            ''
-#murmur_port:               '64738'
-#murmur_rpc:                'session'
-#murmur_servername:         ''
-#murmur_serverpassword:     ''
-#murmur_sslcert:            ''
-#murmur_sslkey:             ''
-#murmur_textmessagelength:  '5000'
-#murmur_uname:              'murmur'
-#murmur_users:              '100'
-#murmur_welcometext:        '"Welcome to mumble"'
+#
+#ganglia::add_repo: 'false'
+#ganglia::gmond_cluster_name: 'CLUSTERNAME'
+#ganglia::gmond_latlong: 'unspecified'
+#ganglia::gmond_location: 'ANYTOWN,USA'
+#ganglia::gmond_owner: 'CLUSTER CONTACT PERSON'
+#ganglia::gmond_tcp_accept_channels:
+# main: {
+#   port:       '8649'
+# }
+#ganglia::gmond_udp_recv_channels:
+# main: {
+#   mcast_join: '239.2.11.71'
+#   port:       '8649'
+#   ttl:        '1'
+# }
+#ganglia::gmond_udp_send_channels:
+# main: {
+#   mcast_join: '239.2.11.71'
+#   port:       '8649'
+#   ttl:        '1'
+# }
+#ganglia::repo_hash:
+#  ganglia_34: {
+#    descr: 'ganglia_34',
+#    baseurl: 'http://repo.mydomain.com/ganglia/3.4/',
+#    gpgcheck: '0',
+#    enabled: '1'
+#  }
+#ganglia::user: 'nobody'
+#ganglia::version: '3.4'
+#ganglia::web: False
+
+#
 # === Examples
 #
-#  class { murmur:
-#    murmur_serverpassword => 'c@llMEmayb?'
-#  }
+# class { Ganglia:
+#  ganglia::gmond_cluster_name => 'Web Cluster',
+#  ganglia::gmond_location     => 'City, State',
+#)
 #
 # === To Do:
-#
-#  turn this into a defined type so multiple servers can be run on a box
 #
 # === Authors
 #
@@ -135,103 +97,79 @@
 #
 # === Copyright
 #
-# Copyright 1999 Flagship Industries, unless otherwise noted.
 #
-class murmur(
-  $murmur_ensure             = hiera('murmur_ensure',             'enabled'),
-  $murmur_allowhtml          = hiera('murmur_allowhtml',          'true' ),
-  $murmur_autoban_attempts   = hiera('murmur_autoban_attempts',   '10'),
-  $murmur_autoban_time       = hiera('murmur_autoban_time',       '120'),
-  $murmur_autoban_timeframe  = hiera('murmur_autoban_timeframe',  '120'),
-  $murmur_bandwidth          = hiera('murmur_bandwidth',          '72000'),
-  $murmur_configfile         = hiera('murmur_configfile',         'murmur.ini'),
-  $murmur_database           = hiera('murmur_database',           'murmur.sqlite'),
-  $murmur_host               = hiera('murmur_host',               ''),
-  $murmur_imagemessagelength = hiera('murmur_imagemessagelength', '131072'),
-  $murmur_installdir         = hiera('murmur_installdir',         '/usr/local/murmur/'),
-  $murmur_logdays            = hiera('murmur_logdays',            '31'),
-  $murmur_logfile            = hiera('murmur_logfile',            '/var/log/murmur.log'),
-  $murmur_logrotate          = hiera('murmur_logrotate',          'false' ),
-  $murmur_packagename        = hiera('murmur_packagename',        'Murmur'),
-  $murmur_pidfile            = hiera('murmur_pidfile',            '/var/log/murmur.pid'),
-  $murmur_port               = hiera('murmur_port',               '64738'),
-  $murmur_rpc                = hiera('murmur_rpc',                'session'),
-  $murmur_serverpassword     = hiera('murmur_serverpassword',     ''),
-  $murmur_sslcert            = hiera('murmur_sslcert',            ''),
-  $murmur_sslkey             = hiera('murmur_sslkey',             ''),
-  $murmur_textmessagelength  = hiera('murmur_textmessagelength',  '5000'),
-  $murmur_uname              = hiera('murmur_uname',              'murmur'),
-  $murmur_users              = hiera('murmur_users',              '100'),
-  $murmur_welcometext        = hiera('murmur_welcometext',        "\"<br />Welcome to ${::fqdn} running <b>Murmur</b>.<br />Enjoy your stay!<br />\""),
-
+class ganglia(
+  ganglia::add_repo                  = hiera('ganglia::add_repo', 'false' ),
+  ganglia::gmond_cluster_name        = hiera('ganglia::gmond_cluster_name', 'CLUSTERNAME' ),
+  ganglia::gmond_latlong             = hiera('ganglia::gmond_latlong', 'unspecified' ),
+  ganglia::gmond_location            = hiera('ganglia::gmond_location', 'ANYTOWN,USA' ),
+  ganglia::gmond_owner               = hiera('ganglia::gmond_owner', 'CLUSTER CONTACT PERSON' ),
+  ganglia::gmond_tcp_accept_channels = hiera('ganglia::gmond_tcp_accept_channels'.
+    main => {
+      port => '8649',
+    }),
+  ganglia::gmond_udp_recv_channels   = hiera('ganglia::gmond_udp_recv_channels',
+    main => {
+      mcast_join => '239.2.11.71',
+      port       => '8649',
+      ttl        => '1',
+    } ),
+  ganglia::gmond_udp_send_channels   = hiera('ganglia::gmond_udp_send_channels',
+    main => {
+      mcast_join => '239.2.11.71',
+      port       => '8649',
+      ttl        => '1',
+    } ),
+  ganglia::repo_hash                 = hiera('ganglia::repo_hash',
+    ganglia_34 => {
+      descr     => 'ganglia_34',
+      baseurl   => 'http://repo.mydomain.com/ganglia/3.4/',
+      gpgcheck  => '0',
+      enabled   => '1',
+    }),
+  ganglia::user                      = hiera('ganglia::user', 'nobody' ),
+  ganglia::version                   = hiera('ganglia::version', '3.4'),
+  ganglia::web                       = hiera('ganglia::web', false )
 ) {
   #take advantage of the Anchor pattern
-  anchor{'murmur::begin':}
-  -> anchor {'murmur::package::begin':}
-  -> anchor {'murmur::package::end':}
-  -> anchor {'murmur::config::begin':}
-  -> anchor {'murmur::config::end':}
-  -> anchor {'murmur::service::begin':}
-  -> anchor {'murmur::service::end':}
-  -> anchor {'murmur::end':}
+  anchor{'ganglia::begin':}
+  -> anchor {'ganglia::package::begin':}
+  -> anchor {'ganglia::package::end':}
+  -> anchor {'ganglia::config::begin':}
+  -> anchor {'ganglia::config::end':}
+  -> anchor {'ganglia::service::begin':}
+  -> anchor {'ganglia::service::end':}
+  -> anchor {'ganglia::end':}
   #clean up our parameters
-  $ensure             = $murmur_ensure
-  #$allowhtml          = $murmur_allowhtml
-  case $murmur_allowhtml {
-    /[tT][rR][uU][eE]/: {
-      $allowhtml = true
-    }
-    /[fF][aA][lL][sS][eE]/: {
-      $allowhtml = false
-    }
-    default: {
-      fail "unsupported value $murmur_allowhtml for murmur_allowhtml. expecting a string with the value  true or false"
-    }
-  }
-  $autoban_attempts   = $murmur_autoban_attempts
-  $autoban_timeframe  = $murmur_autoban_timeframe
-  $autoban_time       = $murmur_autoban_time
-  $bandwidth          = $murmur_bandwidth
-  $configfile         = $murmur_configfile
-  $database           = $murmur_database
-  $host               = $murmur_host
-  $imagemessagelength = $murmur_imagemessagelength
-  $installdir         = $murmur_installdir
-  $logdays            = $murmur_logdays
-  $logfile            = $murmur_logfile
-  #$logrotate          = $murmur_logrotate
-  case $murmur_logrotate {
-    /[tT][rR][uU][eE]/: {
-      $logrotate = true
-    }
-    /[fF][aA][lL][sS][eE]/: {
-      $logrotate = false
-    }
-    default: {
-      fail "unsupported value $murmur_logrotate for murmur_logrotate. expecting a string with the value  true or false"
-    }
-  }
-  $packagename        = $murmur_packagename
-  $pidfile            = $murmur_pidfile
-  $port               = $murmur_port
-  $rpc                = $murmur_rpc
-  $serverpassword     = $murmur_serverpassword
-  $sslcert            = $murmur_sslcert
-  $sslkey             = $murmur_sslkey
-  $textmessagelength  = $murmur_textmessagelength
-  $users              = $murmur_users
-  $uname              = $murmur_uname
-  $welcometext        = $murmur_welcometext
+$add_repo                  = $ganglia::add_repo
+$gmond_cluster_name        = $ganglia::gmond_cluster_name
+$gmond_latlong             = $ganglia::gmond_latlong
+$gmond_location            = $ganglia::gmond_location
+$gmond_owner               = $ganglia::gmond_owner
+$gmond_tcp_accept_channels = $ganglia::gmond_tcp_accept_channels
+$gmond_udp_recv_channels   = $ganglia::gmond_udp_recv_channels
+$gmond_udp_send_channels   = $ganglia::gmond_udp_send_channels
+$repo_hash                 = $ganglia::repo_hash
+$user                      = $ganglia::user
+$version                   = $ganglia::version
+$web                       = $ganglia::web
 
   case $::osfamily {
     #RedHat Debian Suse Solaris Windows
     RedHat: {
-      include murmur::rhel::package
-      include murmur::rhel::config
-      include murmur::rhel::service
+      include ganglia::rhel::package
+      include ganglia::rhel::config
+      include ganglia::rhel::service
     }#end RHEL variant case
     default: {
-      notice "There is not currently a murmur module for $::osfamily"
+      notice "There is not currently a ganglia module for $::osfamily"
     }#end default unsupported OS case
   }
-}#end of murmur class
+}#end of ganglia class
+
+
+
+
+
+
+

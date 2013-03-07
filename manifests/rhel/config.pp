@@ -5,8 +5,8 @@
 #      -A RH-Firewall-1-INPUT -p tcp -m tcp --dport murmurport -j ACCEPT
 #      -A RH-Firewall-1-INPUT -p udp -m udp --dport murmurport -j ACCEPT
 #
-Anchor['murmur::package::end'] -> Class['murmur::rhel::config']
 class murmur::rhel::config {
+Anchor['murmur::package::end'] -> Class['murmur::rhel::config']
   #make our parameters local scope
   File{} -> Anchor['murmur::config::end']
   #clean up our parameters

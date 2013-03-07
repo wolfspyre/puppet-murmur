@@ -1,7 +1,7 @@
 # == Class: murmur::rhel::service
 #  wrapper class
-Anchor['murmur::config::end'] -> Class['murmur::rhel::service']
 class murmur::rhel::service {
+Anchor['murmur::config::end'] -> Class['murmur::rhel::service']
   Service{} -> Anchor['murmur::service::end']
   $packagename        = $murmur::packagename
   # end of variables
